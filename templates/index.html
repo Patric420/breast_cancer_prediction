@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Prediction</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .result {
+            margin-top: 20px;
+        }
+        h1, h3 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Breast Cancer Prediction</h1>
+        <div class="form-container">
+            <form action="/predict" method="POST">
+                <div class="row">
+                    <!-- Loop through each feature and generate an input field -->
+                    {% for feature in [
+                        "mean radius", "mean texture", "mean perimeter", "mean area", "mean smoothness", 
+                        "mean compactness", "mean concavity", "mean concave points", "mean symmetry", "mean fractal dimension", 
+                        "radius error", "texture error", "perimeter error", "area error", "smoothness error", 
+                        "compactness error", "concavity error", "concave points error", "symmetry error", "fractal dimension error", 
+                        "worst radius", "worst texture", "worst perimeter", "worst area", "worst smoothness", "worst compactness", 
+                        "worst concavity", "worst concave points", "worst symmetry", "worst fractal dimension"
+                    ] %}
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ feature }}" class="form-label">{{ feature.replace("_", " ").title() }}:</label>
+                        <input type="number" step="any" name="{{ feature }}" class="form-control" placeholder="Enter {{ feature }}" required>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg mt-4">Predict</button>
+                </div>
+            </form>
+
+            <!-- Display Prediction Result -->
+            {% if prediction_text %}
+            <div class="result alert alert-info mt-4 text-center">
+                <h3>{{ prediction_text }}</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
